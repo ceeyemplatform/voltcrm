@@ -14,6 +14,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { CloudSyncModule } from './cloud-sync/cloud-sync.module';
 import { CompanySettingsModule } from './company-settings/company-settings.module';
 import { AppController } from './app.controller';
+import { KeepAliveService } from './keep-alive.service';
 
 @Module({
   imports: [
@@ -36,6 +37,6 @@ import { AppController } from './app.controller';
     CompanySettingsModule,
   ],
   controllers: [AppController],
-  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }, KeepAliveService],
 })
 export class AppModule {}
