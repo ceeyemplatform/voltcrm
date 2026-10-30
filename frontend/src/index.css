@@ -1,0 +1,367 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  body {
+    @apply bg-[#f8fafc] text-slate-800 antialiased font-sans selection:bg-blue-100 selection:text-blue-900 transition-colors duration-200;
+  }
+}
+
+/* ========================================================================= */
+/* SHARED UI PRIMITIVES                                                      */
+/* ========================================================================= */
+@layer components {
+  .form-label {
+    @apply mb-1.5 flex items-center gap-1.5 text-[13px] font-medium text-slate-700;
+  }
+  .form-input {
+    @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 shadow-[0_1px_2px_rgba(15,23,42,0.03)] transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500;
+  }
+  .form-section-title {
+    @apply flex items-center gap-2 text-[13px] font-semibold text-slate-900;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-[0_1px_2px_rgba(37,99,235,0.25)] transition hover:bg-blue-700 active:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 cursor-pointer;
+  }
+  .btn-icon {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 cursor-pointer;
+  }
+  .card {
+    @apply rounded-xl border border-slate-300 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.05)];
+  }
+  .skeleton {
+    @apply rounded-md bg-slate-200/70;
+    background-image: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 150% 0; }
+  100% { background-position: -50% 0; }
+}
+
+.dark .skeleton {
+  background-color: #1e293b;
+  background-image: linear-gradient(90deg, transparent 0%, rgba(148, 163, 184, 0.08) 50%, transparent 100%);
+}
+
+.dark .card {
+  background-color: #111827;
+  border-color: #2a3647;
+}
+
+/* ========================================================================= */
+/* BLACK & WHITE / DARK THEME SYSTEM                                         */
+/* ========================================================================= */
+.dark {
+  color-scheme: dark;
+}
+
+html.dark,
+body.dark,
+.dark body {
+  background-color: #090d16 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Base surface containers */
+.dark .bg-white {
+  background-color: #111827 !important;
+  color: #f8fafc;
+}
+
+.dark .bg-white\/95,
+.dark .bg-white\/90 {
+  background-color: rgba(17, 24, 39, 0.92) !important;
+}
+
+.dark .bg-slate-50\/40,
+.dark .bg-slate-50\/60 {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+}
+
+/* Tinted chips, icon boxes and badges: soft translucent fills instead of pastel blocks */
+.dark .bg-blue-50 { background-color: rgba(59, 130, 246, 0.14) !important; }
+.dark .bg-sky-50 { background-color: rgba(14, 165, 233, 0.14) !important; }
+.dark .bg-indigo-50 { background-color: rgba(99, 102, 241, 0.16) !important; }
+.dark .bg-violet-50,
+.dark .bg-purple-50 { background-color: rgba(139, 92, 246, 0.16) !important; }
+.dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.14) !important; }
+.dark .bg-amber-50,
+.dark .bg-orange-50 { background-color: rgba(245, 158, 11, 0.14) !important; }
+.dark .bg-rose-50 { background-color: rgba(244, 63, 94, 0.14) !important; }
+.dark .bg-blue-50\/60 { background-color: rgba(59, 130, 246, 0.12) !important; }
+
+.dark .ring-slate-200,
+.dark .ring-slate-300,
+.dark .ring-slate-200\/70 { --tw-ring-color: #334155 !important; }
+.dark .ring-blue-100,
+.dark .ring-blue-200 { --tw-ring-color: rgba(59, 130, 246, 0.3) !important; }
+.dark .ring-sky-100 { --tw-ring-color: rgba(14, 165, 233, 0.3) !important; }
+.dark .ring-violet-100,
+.dark .ring-purple-200,
+.dark .ring-indigo-200,
+.dark .ring-violet-200 { --tw-ring-color: rgba(139, 92, 246, 0.3) !important; }
+.dark .ring-emerald-100,
+.dark .ring-emerald-200 { --tw-ring-color: rgba(16, 185, 129, 0.3) !important; }
+.dark .ring-amber-100,
+.dark .ring-amber-200 { --tw-ring-color: rgba(245, 158, 11, 0.3) !important; }
+.dark .ring-rose-100,
+.dark .ring-rose-200 { --tw-ring-color: rgba(244, 63, 94, 0.3) !important; }
+
+.dark .text-blue-700 { color: #93c5fd !important; }
+.dark .text-emerald-700 { color: #6ee7b7 !important; }
+.dark .text-amber-700 { color: #fcd34d !important; }
+.dark .text-rose-700 { color: #fda4af !important; }
+.dark .text-violet-700,
+.dark .text-purple-700,
+.dark .text-indigo-700 { color: #c4b5fd !important; }
+
+.dark .hover\:bg-slate-50\/60:hover,
+.dark .hover\:bg-slate-50\/70:hover { background-color: rgba(30, 41, 59, 0.6) !important; }
+
+.dark .bg-\[\#f8fafc\] {
+  background-color: #090d16 !important;
+}
+
+/* Slate backgrounds in dark mode */
+.dark .bg-slate-50,
+.dark .bg-slate-50\/50,
+.dark .bg-slate-50\/60,
+.dark .bg-slate-50\/70,
+.dark .bg-slate-50\/80 {
+  background-color: #0f172a !important;
+  color: #e2e8f0;
+}
+
+.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+  color: #f8fafc;
+}
+
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-100:hover {
+  background-color: #1e293b !important;
+}
+
+/* Borders in dark mode */
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-slate-200\/60,
+.dark .border-slate-200\/70,
+.dark .border-slate-200\/80,
+.dark .border-slate-300,
+.dark .border-slate-200\/90 {
+  border-color: #2a3647 !important;
+}
+
+.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
+.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+.dark .divide-slate-300 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #2a3647 !important;
+}
+
+/* Text colors in dark mode */
+.dark .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+.dark .text-slate-800 {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-slate-700 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Inputs, selects, and textareas */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Tables in dark mode */
+.dark table thead {
+  background-color: #0f172a !important;
+}
+
+.dark table thead th {
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+.dark table tbody tr:hover {
+  background-color: rgba(30, 41, 59, 0.4) !important;
+}
+
+/* Free text quotation pages (editor and print share these styles) */
+.rich-page {
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.rich-page:empty::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+}
+.rich-page h1 { font-size: 1.6em; font-weight: 700; margin: 0.6em 0 0.3em; }
+.rich-page h2 { font-size: 1.3em; font-weight: 700; margin: 0.6em 0 0.3em; }
+.rich-page h3 { font-size: 1.1em; font-weight: 600; margin: 0.5em 0 0.25em; }
+.rich-page p, .rich-page div { margin: 0 0 0.35em; }
+.rich-page ul { list-style: disc; padding-left: 1.5em; margin: 0.3em 0; }
+.rich-page ol { list-style: decimal; padding-left: 1.5em; margin: 0.3em 0; }
+.rich-page blockquote { border-left: 3px solid #cbd5e1; padding-left: 0.8em; color: #475569; }
+.rich-page hr { border-top: 1px solid #94a3b8; margin: 0.8em 0; }
+.rich-page font[size='1'] { font-size: 0.7em; }
+.rich-page font[size='2'] { font-size: 0.85em; }
+.rich-page font[size='4'] { font-size: 1.15em; }
+.rich-page font[size='5'] { font-size: 1.35em; }
+.rich-page font[size='6'] { font-size: 1.7em; }
+.rich-page font[size='7'] { font-size: 2.2em; }
+.rich-page table { width: 100%; border-collapse: collapse; margin: 0.5em 0; }
+.rich-page th, .rich-page td { border: 1px solid #94a3b8; padding: 4px 8px; vertical-align: top; min-width: 40px; }
+.rich-page th { background: #f1f5f9; font-weight: 600; text-align: left; }
+.dark .rich-page th { background: #1e293b; }
+
+/* Print optimizations */
+@media print {
+  /* Print preview open: print only the document, not the app behind it */
+  body.print-doc-open {
+    overflow: visible !important;
+  }
+  body.print-doc-open #root {
+    display: none !important;
+  }
+  body.print-doc-open .print-doc {
+    position: static !important;
+    display: block !important;
+    background: white !important;
+  }
+  /* Popups: no clipping, no dimmed backdrop */
+  body.print-doc-open .print-doc,
+  body.print-doc-open .print-doc * {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  body.print-doc-open .print-doc {
+    padding: 0 !important;
+    backdrop-filter: none !important;
+  }
+  body.print-doc-open .print-doc > div {
+    max-width: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+  }
+  body.print-doc-open .print-doc-scroll {
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+  body.print-doc-open .print-doc-page {
+    max-width: none !important;
+    box-shadow: none !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-container {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 4mm 12mm 12mm !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  /* Top margin keeps Chrome's header line (date + file name); no bottom margin means no footer
+     line (the localhost address). Sides and bottom spacing come from the document's own padding. */
+  @page {
+    size: A4;
+    margin: 10mm 0 0 0;
+  }
+
+  body.print-doc-open .print-doc-page {
+    padding: 4mm 12mm 12mm !important;
+  }
+
+  /* Each free text quotation page starts on a new sheet */
+  .print-page-break {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  /* Wide documents (quotation) keep their on-screen layout, scaled to the A4 width */
+  .print-fit-wide {
+    width: 1024px !important;
+    max-width: none !important;
+    zoom: 0.68; /* 1024px × 0.68 ≈ 696px, the A4 width inside a 12mm border */
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none;
+  }
+}

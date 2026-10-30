@@ -1,0 +1,17 @@
+# Dependencies and builds
+node_modules/
+dist/
+dist-ssr/
+*.log
+
+# Secrets: never commit real environment files (database password, Supabase keys)
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db

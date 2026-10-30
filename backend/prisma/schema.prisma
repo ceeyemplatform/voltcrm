@@ -1,0 +1,205 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Labour {
+  id          String        @id @default(uuid())
+  userId      String
+  name        String
+  address     String?
+  contact     String?
+  category    String?       // Electrician, Helper, Wireman, Supervisor, etc.
+  hourlyRate  Float?        @default(0)
+  dailyWage   Float?        @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  workLabours WorkLabour[]
+
+  @@index([userId])
+}
+
+model WorkSite {
+  id          String        @id @default(uuid())
+  userId      String
+  name        String
+  section     String?
+  address     String?
+  contact     String?
+  note        String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  works       Work[]
+  quotations  Quotation[]
+
+  @@index([userId])
+}
+
+model Work {
+  id                String         @id @default(uuid())
+  userId            String
+  date              DateTime
+  endDate           DateTime?
+  workCode          String
+  name              String
+  workOrder         String?
+  woDate            DateTime?
+  contractorAmount  Float?         @default(0)
+  status            String         @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, CANCELLED
+  gstMillNumber     String?
+  gstDate           DateTime?
+  electricalSection String?
+  typeOfWork        String?
+  workSiteId        String?
+  workSite          WorkSite?      @relation(fields: [workSiteId], references: [id], onDelete: SetNull)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  labours           WorkLabour[]
+  materials         WorkMaterial[]
+  polevarData       Json?
+  dailyDetails      Json?
+
+  @@index([userId])
+  @@index([workCode])
+  @@index([status])
+}
+
+model WorkLabour {
+  id          String        @id @default(uuid())
+  workId      String
+  work        Work          @relation(fields: [workId], references: [id], onDelete: Cascade)
+  labourId    String?
+  labour      Labour?       @relation(fields: [labourId], references: [id], onDelete: SetNull)
+  labourName  String
+  category    String?
+  wage        Float         @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([workId])
+  @@index([labourId])
+}
+
+model WorkMaterial {
+  id              String        @id @default(uuid())
+  workId          String
+  work            Work          @relation(fields: [workId], references: [id], onDelete: Cascade)
+  materialName    String
+  quantityIssued  Float         @default(0)
+  quantityUsed    Float         @default(0)
+  variance        Float         @default(0) // quantityIssued - quantityUsed
+  remarks         String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([workId])
+}
+
+model Quotation {
+  id          String          @id @default(uuid())
+  userId      String
+  quotationNo String
+  date        DateTime
+  clientName  String
+  address     String?
+  workSiteId  String?
+  workSite    WorkSite?       @relation(fields: [workSiteId], references: [id], onDelete: SetNull)
+  subtotal    Float           @default(0)
+  gstPercent  Float           @default(18)
+  total       Float           @default(0)
+  kind        String          @default("ITEMS") // ITEMS (priced line items) or WRITTEN (free text pages only)
+  pan         String?         // PAN number printed on the quotation, when chosen
+  pages       Json?           // [{ id, html }] free text pages printed after the items
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  items       QuotationItem[]
+
+  @@index([userId])
+  @@index([quotationNo])
+}
+
+model QuotationItem {
+  id          String        @id @default(uuid())
+  quotationId String
+  quotation   Quotation     @relation(fields: [quotationId], references: [id], onDelete: Cascade)
+  description String
+  unit        String?
+  qty         Float         @default(1)
+  rate        Float         @default(0)
+  amount      Float         @default(0)
+  itemType    String?       @default("BOTH") // "BOTH", "SUPPLY", "LABOUR"
+  supplyRate  Float?        @default(0)
+  labourRate  Float?        @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([quotationId])
+}
+
+model Expense {
+  id          String        @id @default(uuid())
+  userId      String
+  date        DateTime
+  amount      Float         @default(0)
+  category    String
+  type        String        // "income" or "expense"
+  remarks     String?
+  workId      String?
+  workCode    String?
+  workName    String?
+  personName  String?       // "who given cash" / received from / paid to
+  paymentMode String?       // "mode of transaction" e.g. Cash, UPI, Bank Transfer, Cheque
+  isFlagged   Boolean?      @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([type])
+  @@index([date])
+  @@index([workId])
+  @@index([workCode])
+}
+
+// Company details printed in the header of every document, plus saved PAN numbers
+model CompanySettings {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  companyName   String?
+  tagline       String?
+  regNo         String?
+  gstin         String?
+  phone         String?
+  email         String?
+  address       String?
+  signatoryName String?  // "For ______" under the signature line
+  logo          String?  // image as a data URL; the default icon is used when empty
+  pans          Json?    // [{ id, pan, label, isDefault }]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model CloudSyncSettings {
+  id                    String    @id @default(uuid())
+  userId                String    @unique
+  googleSheetWebhookUrl String?
+  googleSheetUrl        String?
+  lastSyncedAt          DateTime?
+  autoSync              Boolean   @default(false)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+}
+
