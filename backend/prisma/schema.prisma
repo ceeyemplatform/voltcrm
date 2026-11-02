@@ -200,7 +200,7 @@ model CloudSyncSettings {
   googleSheetWebhookUrl String?
   googleSheetUrl        String?
   lastSyncedAt          DateTime?
-  autoSync              Boolean   @default(false)
+  autoSync              Boolean   @default(true) // daily sync at 11 PM (India time)
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 

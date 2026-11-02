@@ -6,6 +6,9 @@ import {
   Injectable,
   BadRequestException,
   InternalServerErrorException,
+  Logger,
+  OnApplicationBootstrap,
+  OnApplicationShutdown,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -32,8 +35,75 @@ const assertGoogleUrl = (value: string, kind: 'webhook' | 'sheet') => {
   return url.toString();
 };
 
+/** Daily sync time in India (IST, UTC+5:30, no daylight saving) */
+const DAILY_SYNC_HOUR_IST = 23;
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+const CHECK_EVERY_MS = 5 * 60 * 1000;
+/** Failed daily syncs are retried at most this many times per night */
+const MAX_DAILY_ATTEMPTS = 3;
+
+/** Today's 11 PM in India as a moment in time, and whether it has passed */
+const dailySyncMoment = (now = new Date()) => {
+  const ist = new Date(now.getTime() + IST_OFFSET_MS);
+  const due = new Date(
+    Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate(), DAILY_SYNC_HOUR_IST) - IST_OFFSET_MS,
+  );
+  return { due, isPast: now >= due, day: ist.toISOString().slice(0, 10) };
+};
+
 @Injectable()
-export class CloudSyncService {
+export class CloudSyncService implements OnApplicationBootstrap, OnApplicationShutdown {
+  private readonly logger = new Logger('DailySync');
+  private timer?: NodeJS.Timeout;
+  private running = false;
+  /** Attempts per user for the current night, e.g. "2026-11-02:userId" -> 1 */
+  private attempts = new Map<string, number>();
+
+  onApplicationBootstrap() {
+    this.timer = setInterval(() => void this.runDailySync(), CHECK_EVERY_MS);
+    this.timer.unref();
+  }
+
+  onApplicationShutdown() {
+    if (this.timer) clearInterval(this.timer);
+  }
+
+  /**
+   * After 11 PM India time, syncs every account that has daily sync on and hasn't synced since.
+   * Checked every 5 minutes, so a restart or a short outage still syncs that night.
+   */
+  async runDailySync() {
+    const { due, isPast, day } = dailySyncMoment();
+    if (!isPast || this.running) return;
+    this.running = true;
+    try {
+      const pending = await this.prisma.cloudSyncSettings.findMany({
+        where: {
+          autoSync: true,
+          googleSheetWebhookUrl: { not: null },
+          OR: [{ lastSyncedAt: null }, { lastSyncedAt: { lt: due } }],
+        },
+        select: { userId: true },
+      });
+      for (const { userId } of pending) {
+        const key = `${day}:${userId}`;
+        const tries = this.attempts.get(key) || 0;
+        if (tries >= MAX_DAILY_ATTEMPTS) continue;
+        this.attempts.set(key, tries + 1);
+        try {
+          await this.pushToGoogleSheet(userId);
+          this.logger.log(`Daily sync done for ${userId}`);
+        } catch (err: any) {
+          this.logger.warn(`Daily sync failed for ${userId} (try ${tries + 1}): ${err?.message || err}`);
+        }
+      }
+      // Forget earlier nights
+      for (const k of this.attempts.keys()) if (!k.startsWith(`${day}:`)) this.attempts.delete(k);
+    } finally {
+      this.running = false;
+    }
+  }
+
   constructor(
     private prisma: PrismaService,
     private expenseService: ExpenseService,
@@ -64,21 +134,21 @@ export class CloudSyncService {
       autoSync?: boolean;
     },
   ) {
-    const webhook = dto.googleSheetWebhookUrl?.trim() ? assertGoogleUrl(dto.googleSheetWebhookUrl.trim(), 'webhook') : null;
-    const sheet = dto.googleSheetUrl?.trim() ? assertGoogleUrl(dto.googleSheetUrl.trim(), 'sheet') : null;
+    // Only the fields sent are changed, so turning daily sync on/off keeps the saved links
+    const data: { googleSheetWebhookUrl?: string | null; googleSheetUrl?: string | null; autoSync?: boolean } = {};
+    if (dto.googleSheetWebhookUrl !== undefined) {
+      const v = dto.googleSheetWebhookUrl.trim();
+      data.googleSheetWebhookUrl = v ? assertGoogleUrl(v, 'webhook') : null;
+    }
+    if (dto.googleSheetUrl !== undefined) {
+      const v = dto.googleSheetUrl.trim();
+      data.googleSheetUrl = v ? assertGoogleUrl(v, 'sheet') : null;
+    }
+    if (dto.autoSync !== undefined) data.autoSync = Boolean(dto.autoSync);
     return this.prisma.cloudSyncSettings.upsert({
       where: { userId },
-      create: {
-        userId,
-        googleSheetWebhookUrl: webhook,
-        googleSheetUrl: sheet,
-        autoSync: Boolean(dto.autoSync),
-      },
-      update: {
-        googleSheetWebhookUrl: webhook,
-        googleSheetUrl: sheet,
-        autoSync: dto.autoSync !== undefined ? Boolean(dto.autoSync) : undefined,
-      },
+      create: { userId, ...data },
+      update: data,
     });
   }
 

@@ -16,6 +16,7 @@ import {
   Database,
   ArrowRight,
   ShieldCheck,
+  Clock,
 } from 'lucide-react';
 import { Modal } from './Modal';
 import { api } from '../../lib/api';
@@ -98,6 +99,22 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
       setError(err?.message || 'Failed to save settings');
     } finally {
       setSavingSettings(false);
+    }
+  };
+
+  const [savingAuto, setSavingAuto] = useState(false);
+  const handleToggleAutoSync = async () => {
+    if (!settings) return;
+    const next = !settings.autoSync;
+    setSavingAuto(true);
+    setError(null);
+    try {
+      const updated = await api.cloudSync.updateSettings({ autoSync: next });
+      setSettings(updated);
+    } catch (err: any) {
+      setError(err?.message || 'Failed to change daily sync');
+    } finally {
+      setSavingAuto(false);
     }
   };
 
@@ -197,11 +214,36 @@ export const CloudSyncModal: React.FC<CloudSyncModalProps> = ({
               </div>
 
               <h3 className="text-xl font-bold tracking-tight flex items-center space-x-2">
-                <span>ElecCRM Cloud Spreadsheet</span>
+                <span>VoltCRM Cloud Spreadsheet</span>
               </h3>
               <p className="text-xs text-slate-300 max-w-md">
-                Pushes Work Orders, Day-by-Day Workforce Logs, Labour Directory, Work Sites, and Polevar Material Matrices directly to your Google Sheet tabs.
+                Pushes work sites, work orders, daily work, workers, labour, Polevar sheets, quotations and expenses to linked Google Sheet tabs.
               </p>
+              {settings && (
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={Boolean(settings.autoSync)}
+                  onClick={handleToggleAutoSync}
+                  disabled={savingAuto}
+                  className="mt-1 inline-flex items-center gap-2.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-slate-200 transition hover:bg-white/10 disabled:opacity-60"
+                  title="Sync automatically every night at 11:00 PM (India time)"
+                >
+                  <span
+                    className={`relative inline-flex h-4 w-7 flex-shrink-0 rounded-full transition ${
+                      settings.autoSync ? 'bg-emerald-500' : 'bg-slate-500'
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 h-3 w-3 rounded-full bg-white transition-all ${
+                        settings.autoSync ? 'left-3.5' : 'left-0.5'
+                      }`}
+                    />
+                  </span>
+                  <Clock className="h-3.5 w-3.5 text-emerald-300" />
+                  Daily sync at 11:00 PM {settings.autoSync ? 'on' : 'off'}
+                </button>
+              )}
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
