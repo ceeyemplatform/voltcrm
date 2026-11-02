@@ -27,7 +27,7 @@ export const QuotationHeader: React.FC<QuotationHeaderProps> = ({
   <>
     {showCompany && <PrintHeader pan={pan} />}
 
-    <h2 className="mt-2 text-center text-xl font-extrabold uppercase tracking-[0.25em] text-black">Quotation</h2>
+    <h2 className="mt-1 text-center text-sm font-bold uppercase tracking-[0.2em] text-black">Quotation</h2>
     <div className="mt-3 mb-5 flex items-end justify-between gap-4 text-xs">
       <p className="text-slate-700">
         Quotation No: <span className="font-mono font-bold text-black">{quotationNo || '—'}</span>
@@ -38,16 +38,13 @@ export const QuotationHeader: React.FC<QuotationHeaderProps> = ({
     </div>
 
     {/* Client & Work Site Billing Info */}
-    <div className="mb-6 grid grid-cols-2 gap-6 border-b border-slate-300 pb-5 text-xs">
+    <div className="mb-6 border-b border-slate-300 pb-5 text-xs">
       <div>
         <span className="font-bold uppercase tracking-wider text-slate-400 block text-[10px] mb-1">
           QUOTATION ISSUED TO:
         </span>
         <p className="text-sm font-bold text-slate-900">{clientName || <span className="text-slate-400">Client name</span>}</p>
         {address && <p className="text-slate-600 mt-1 whitespace-pre-line leading-relaxed">{address}</p>}
-      </div>
-      <div className="text-right">
-        <p className="text-slate-500 text-[11px] mt-2">Quotation Validity: 30 Days from date of issue</p>
       </div>
     </div>
   </>
