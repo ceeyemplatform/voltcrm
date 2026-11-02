@@ -1,6 +1,8 @@
 export interface Labour {
   id: string;
   userId: string;
+  /** e.g. LAB-001, assigned by the server */
+  labourCode?: string | null;
   name: string;
   address?: string;
   contact?: string;
@@ -14,6 +16,8 @@ export interface Labour {
 export interface WorkSite {
   id: string;
   userId: string;
+  /** e.g. SITE-001, assigned by the server */
+  siteCode?: string | null;
   name: string;
   section?: string;
   address?: string;

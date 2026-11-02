@@ -2,15 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateWorkSiteDto } from './dto/create-work-site.dto';
 import { UpdateWorkSiteDto } from './dto/update-work-site.dto';
+import { assignMissingCodes, nextSiteCode } from '../common/codes';
 
 @Injectable()
 export class WorkSiteService {
   constructor(private prisma: PrismaService) {}
 
   async findAll(userId: string, search?: string) {
+    await assignMissingCodes(this.prisma, userId);
     const where: any = { userId };
     if (search) {
       where.OR = [
+        { siteCode: { contains: search, mode: 'insensitive' } },
         { name: { contains: search, mode: 'insensitive' } },
         { section: { contains: search, mode: 'insensitive' } },
         { address: { contains: search, mode: 'insensitive' } },
@@ -61,6 +64,7 @@ export class WorkSiteService {
       data: {
         ...dto,
         userId,
+        siteCode: await nextSiteCode(this.prisma, userId),
       },
     });
   }

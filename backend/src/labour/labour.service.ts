@@ -2,15 +2,18 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateLabourDto } from './dto/create-labour.dto';
 import { UpdateLabourDto } from './dto/update-labour.dto';
+import { assignMissingCodes, nextLabourCode } from '../common/codes';
 
 @Injectable()
 export class LabourService {
   constructor(private prisma: PrismaService) {}
 
   async findAll(userId: string, search?: string) {
+    await assignMissingCodes(this.prisma, userId);
     const where: any = { userId };
     if (search) {
       where.OR = [
+        { labourCode: { contains: search, mode: 'insensitive' } },
         { name: { contains: search, mode: 'insensitive' } },
         { contact: { contains: search, mode: 'insensitive' } },
         { category: { contains: search, mode: 'insensitive' } },
@@ -38,6 +41,7 @@ export class LabourService {
       data: {
         ...dto,
         userId,
+        labourCode: await nextLabourCode(this.prisma, userId),
       },
     });
   }

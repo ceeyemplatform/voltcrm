@@ -225,7 +225,13 @@ export const WorkDetailPage: React.FC<WorkDetailPageProps> = ({
   };
 
   const detailRows: { icon: React.ComponentType<{ className?: string }>; label: string; value: React.ReactNode }[] = [
-    { icon: MapPin, label: 'Work site', value: work.workSite?.name || 'Unassigned' },
+    {
+      icon: MapPin,
+      label: 'Work site',
+      value: work.workSite
+        ? `${work.workSite.siteCode ? `${work.workSite.siteCode} · ` : ''}${work.workSite.name}`
+        : 'Unassigned',
+    },
     { icon: Layers, label: 'Section', value: section || '—' },
     { icon: Wrench, label: 'Type of work', value: work.typeOfWork || '—' },
     { icon: Calendar, label: 'Start date', value: fmt(work.date) },

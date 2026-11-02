@@ -376,6 +376,7 @@ export const WorkModal: React.FC<WorkModalProps> = ({
                 </option>
                 {sitesInSection.map((site) => (
                   <option key={site.id} value={site.id}>
+                    {site.siteCode ? `${site.siteCode} · ` : ''}
                     {site.name}
                     {!electricalSection && site.section ? ` · ${site.section}` : ''}
                   </option>

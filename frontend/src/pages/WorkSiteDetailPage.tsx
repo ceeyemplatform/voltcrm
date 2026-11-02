@@ -507,6 +507,7 @@ export const WorkSiteDetailPage: React.FC<WorkSiteDetailPageProps> = ({
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2.5">
+                {site.siteCode && <span className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-slate-600 ring-1 ring-inset ring-slate-300 !text-xs">{site.siteCode}</span>}
                 <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
                   {site.name}
                 </h1>
