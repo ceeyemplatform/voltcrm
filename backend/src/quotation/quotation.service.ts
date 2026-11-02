@@ -127,7 +127,7 @@ export class QuotationService {
         total,
         kind,
         pan: dto.pan?.trim() || null,
-        pages: (dto.pages || []).map((p) => ({ id: p.id, html: p.html })),
+        pages: (dto.pages || []).map((p) => ({ id: p.id, html: p.html, showHeader: p.showHeader })),
         items: {
           create: itemsData,
         },
@@ -216,7 +216,7 @@ export class QuotationService {
       if (dto.workSiteId !== undefined) updateData.workSiteId = dto.workSiteId || null;
       if (dto.kind) updateData.kind = dto.kind;
       if (dto.pan !== undefined) updateData.pan = dto.pan.trim() || null;
-      if (dto.pages !== undefined) updateData.pages = dto.pages.map((p) => ({ id: p.id, html: p.html }));
+      if (dto.pages !== undefined) updateData.pages = dto.pages.map((p) => ({ id: p.id, html: p.html, showHeader: p.showHeader }));
 
       return tx.quotation.update({
         where: { id },

@@ -32,6 +32,9 @@ interface PageEditorProps {
   placeholder?: string;
   /** Read-only block shown at the top of the sheet, e.g. the quotation header */
   header?: React.ReactNode;
+  /** Company header switch for this page; hidden when not given */
+  showHeader?: boolean;
+  onToggleHeader?: (show: boolean) => void;
 }
 
 const BLOCK_STYLES: [string, string][] = [
@@ -67,7 +70,17 @@ const currentCell = (root: HTMLElement | null): HTMLTableCellElement | null => {
 };
 
 /** One free text A4 page with a small formatting toolbar. */
-export const PageEditor: React.FC<PageEditorProps> = ({ page, index, total, onChange, onRemove, placeholder, header }) => {
+export const PageEditor: React.FC<PageEditorProps> = ({
+  page,
+  index,
+  total,
+  onChange,
+  onRemove,
+  placeholder,
+  header,
+  showHeader,
+  onToggleHeader,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   // Last cursor position in the page; dropdowns take focus, so it is put back before formatting
   const savedRange = useRef<Range | null>(null);
@@ -159,8 +172,21 @@ export const PageEditor: React.FC<PageEditorProps> = ({ page, index, total, onCh
   return (
     <div className="overflow-hidden rounded-xl border border-slate-300 bg-slate-100">
       <div className="flex items-center justify-between border-b border-slate-300 bg-white px-3 py-1.5">
-        <span className="text-xs font-semibold text-slate-600">
-          Page {index + 1} of {total}
+        <span className="flex flex-wrap items-center gap-3">
+          <span className="text-xs font-semibold text-slate-600">
+            Page {index + 1} of {total}
+          </span>
+          {onToggleHeader && (
+            <label className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium text-slate-600">
+              <input
+                type="checkbox"
+                checked={Boolean(showHeader)}
+                onChange={(e) => onToggleHeader(e.target.checked)}
+                className="h-3.5 w-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              />
+              Company header on this page
+            </label>
+          )}
         </span>
         <button
           type="button"

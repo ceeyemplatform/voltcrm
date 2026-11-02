@@ -292,6 +292,7 @@ body.dark,
 .dark .bg-slate-50\/90 { background-color: #0f172a !important; }
 .dark .hover\:bg-slate-200:hover, .dark [class*="hover:bg-white/"]:hover { background-color: #1e293b !important; }
 .dark .text-slate-950 { color: #f8fafc !important; }
+.dark .text-black { color: #f8fafc !important; }
 .dark .border-slate-400 { border-color: #334155 !important; }
 
 /* Inputs, selects, and textareas */

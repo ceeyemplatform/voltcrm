@@ -3,7 +3,8 @@ import React, { useRef, useState } from 'react';
 import { buildFileName, fileDate, printWithFileName, usePrintIsolation } from '../../lib/print';
 import { Printer, X, Download, Loader2 } from 'lucide-react';
 import { Quotation } from '../../types';
-import { QuotationHeader } from './QuotationHeader';
+import { QuotationHeader, pageHasHeader } from './QuotationHeader';
+import { PrintHeader } from '../common/PrintHeader';
 import { PdfButton } from '../common/PdfButton';
 import { isRichTextEmpty, sanitizeRichText } from '../../lib/richText';
 import { useCompany } from '../../context/CompanyContext';
@@ -36,16 +37,28 @@ export const QuotationPrintView: React.FC<QuotationPrintViewProps> = ({
   const isWritten = quotation.kind === 'WRITTEN';
   const pages = (Array.isArray(quotation.pages) ? quotation.pages : []).filter((p) => !isRichTextEmpty(p.html));
 
-  /** Free text pages; each one after the first page of the document starts a new sheet */
+  /**
+   * Free text pages; each one after the first page of the document starts a new sheet and shows
+   * the company header when that page asks for it. A written quotation's first page has its
+   * header in the opening block above, so it isn't repeated here.
+   */
   const renderPages = (startOnNewSheet: boolean) =>
     pages.map((p, idx) => (
       <div
         key={p.id || idx}
-        className={`rich-page ${
-          startOnNewSheet || idx > 0 ? 'print-page-break mt-8 border-t border-dashed border-slate-300 pt-8 print:mt-0 print:border-0 print:pt-0' : ''
-        }`}
-        dangerouslySetInnerHTML={{ __html: sanitizeRichText(p.html) }}
-      />
+        className={
+          startOnNewSheet || idx > 0
+            ? 'print-page-break mt-8 border-t border-dashed border-slate-300 pt-8 print:mt-0 print:border-0 print:pt-0'
+            : ''
+        }
+      >
+        {!(isWritten && idx === 0) && pageHasHeader(p, idx, isWritten) && (
+          <div className="print-fit-wide">
+            <PrintHeader pan={quotation.pan} />
+          </div>
+        )}
+        <div className="rich-page" dangerouslySetInnerHTML={{ __html: sanitizeRichText(p.html) }} />
+      </div>
     ));
 
   // Company header and client block, shared by priced and written quotations
@@ -56,6 +69,7 @@ export const QuotationPrintView: React.FC<QuotationPrintViewProps> = ({
       pan={quotation.pan}
       clientName={quotation.clientName}
       address={quotation.address || quotation.workSite?.address}
+      showCompany={!isWritten || pages.length === 0 || pageHasHeader(pages[0], 0, true)}
     />
   );
 

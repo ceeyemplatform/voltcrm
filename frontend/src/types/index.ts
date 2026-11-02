@@ -169,6 +169,8 @@ export interface QuotationPage {
   id: string;
   /** Formatted text as HTML */
   html: string;
+  /** Company header at the top of this page */
+  showHeader?: boolean;
 }
 
 export interface Quotation {

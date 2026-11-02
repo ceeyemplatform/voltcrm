@@ -4,7 +4,8 @@ import { Plus, Trash2, FilePlus2 } from 'lucide-react';
 import { Modal } from '../common/Modal';
 import { Quotation, WorkSite, QuotationItem, QuotationItemType, QuotationPage } from '../../types';
 import { PageEditor, newPage } from './PageEditor';
-import { QuotationHeader } from './QuotationHeader';
+import { QuotationHeader, pageHasHeader } from './QuotationHeader';
+import { PrintHeader } from '../common/PrintHeader';
 import { isRichTextEmpty, sanitizeRichText } from '../../lib/richText';
 import { confirmDelete } from '../common/ConfirmHost';
 import { OptionSelect } from '../common/OptionSelect';
@@ -145,6 +146,8 @@ export const QuotationModal: React.FC<QuotationModalProps> = ({
     setPages((prev) => prev.map((p) => (p.id === id ? { ...p, html } : p)));
   const removePage = (id: string) => setPages((prev) => prev.filter((p) => p.id !== id));
   const addPage = () => setPages((prev) => [...prev, newPage()]);
+  const setPageHeader = (id: string, showHeader: boolean) =>
+    setPages((prev) => prev.map((p) => (p.id === id ? { ...p, showHeader } : p)));
 
   // Line item handlers
   const addItemRow = () => {
@@ -239,7 +242,8 @@ export const QuotationModal: React.FC<QuotationModalProps> = ({
     }
 
     const filledPages = pages
-      .map((p) => ({ id: p.id, html: sanitizeRichText(p.html) }))
+      // The header choice is saved explicitly so it stays put if earlier empty pages are dropped
+      .map((p, idx) => ({ id: p.id, html: sanitizeRichText(p.html), showHeader: pageHasHeader(p, idx, isWritten) }))
       .filter((p) => !isRichTextEmpty(p.html));
 
     if (showPan && !pan.trim()) {
@@ -736,7 +740,10 @@ export const QuotationModal: React.FC<QuotationModalProps> = ({
               onChange={(html) => updatePage(p.id, html)}
               onRemove={() => removePage(p.id)}
               placeholder={idx === 0 && isWritten ? 'Dear Sir / Madam, …' : 'Start typing…'}
-              // Written quotations show the printed header on the first page while typing
+              showHeader={pageHasHeader(p, idx, isWritten)}
+              onToggleHeader={(show) => setPageHeader(p.id, show)}
+              // Pages show what will print above them: the written quotation's opening block on
+              // its first page, and the company header wherever it is switched on
               header={
                 idx === 0 && isWritten ? (
                   <QuotationHeader
@@ -745,7 +752,10 @@ export const QuotationModal: React.FC<QuotationModalProps> = ({
                     pan={showPan ? pan : undefined}
                     clientName={clientName}
                     address={address || workSitesList.find((s) => s.id === workSiteId)?.address}
+                    showCompany={pageHasHeader(p, idx, isWritten)}
                   />
+                ) : pageHasHeader(p, idx, isWritten) ? (
+                  <PrintHeader pan={showPan ? pan : undefined} />
                 ) : undefined
               }
             />

@@ -5,7 +5,8 @@ import { useCompany } from '../../context/CompanyContext';
 import { CompanySettings } from '../../types';
 
 interface PrintHeaderProps {
-  title: string;
+  /** Label at the top right; omit for the company block alone */
+  title?: string;
   subtitle?: string;
   referenceNo?: string;
   date?: string;
@@ -57,10 +58,13 @@ export const PrintHeader: React.FC<PrintHeaderProps> = ({
           </div>
         </div>
 
+        {(title || referenceNo || date) && (
         <div className="text-right">
-          <span className="inline-block px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded bg-slate-900 text-white">
-            {title}
-          </span>
+          {title && (
+            <span className="inline-block px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded bg-slate-900 text-white">
+              {title}
+            </span>
+          )}
           {referenceNo && (
             <p className="text-xs font-mono font-bold text-slate-800 mt-1.5">
               Ref: {referenceNo}
@@ -72,6 +76,7 @@ export const PrintHeader: React.FC<PrintHeaderProps> = ({
             </p>
           )}
         </div>
+        )}
       </div>
       {subtitle && (
         <div className="mt-2 text-xs text-slate-600 italic">
