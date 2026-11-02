@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 import React, { useEffect, useRef, useState } from 'react';
-import { buildFileName, fileDate, printWithFileName, usePrintIsolation } from '../../lib/print';
+import { buildFileName, fileDate, printWithFileName, useForceLightTheme, usePrintIsolation } from '../../lib/print';
 import { formatDate } from '../../lib/dates';
 import { TableRowsSkeleton } from '../common/Skeleton';
 import {
@@ -40,6 +40,8 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
 }) => {
   // While open, printing outputs only this popup
   usePrintIsolation(isOpen);
+  // The Polevar sheet always shows in the light theme, like the paper report
+  useForceLightTheme(isOpen);
   const [data, setData] = useState<WorkPolevarData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

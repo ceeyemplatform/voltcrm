@@ -6,6 +6,8 @@ import {
   MapPin,
   CalendarClock,
   FileSpreadsheet,
+  ClipboardList,
+  Download,
   X,
   Layers,
 } from 'lucide-react';
@@ -276,7 +278,10 @@ export const PolevarPage: React.FC = () => {
           setPrintOnOpen(false);
           setOpenSheet(row);
         }}
+        viewIcon={ClipboardList}
+        viewTitle="Open Polevar report"
         onReportRow={downloadExcel}
+        reportIcon={Download}
         reportRowTitle="Download Excel"
         emptyMessage={
           hasFilters || searchTerm

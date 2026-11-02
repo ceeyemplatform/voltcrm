@@ -36,6 +36,11 @@ interface DataTableProps<T> {
   onReportRow?: (item: T) => void;
   /** Tooltip for the spreadsheet (report) action */
   reportRowTitle?: string;
+  /** Icon and tooltip for the view action (default: eye, "View Details") */
+  viewIcon?: React.ComponentType<{ className?: string }>;
+  viewTitle?: string;
+  /** Icon for the report action (default: spreadsheet) */
+  reportIcon?: React.ComponentType<{ className?: string }>;
   isLoading?: boolean;
   emptyMessage?: string;
   rowKey: (item: T) => string;
@@ -54,6 +59,9 @@ export function DataTable<T extends Record<string, any>>({
   onPrintRow,
   onReportRow,
   reportRowTitle = 'Open Polevar Matrix Report',
+  viewIcon: ViewIcon = Eye,
+  viewTitle = 'View Details',
+  reportIcon: ReportIcon = FileSpreadsheet,
   isLoading = false,
   emptyMessage = 'No records found.',
   rowKey,
@@ -251,9 +259,9 @@ export function DataTable<T extends Record<string, any>>({
                             type="button"
                             onClick={() => onView(row)}
                             className="p-1.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition"
-                            title="View Details"
+                            title={viewTitle}
                           >
-                            <Eye className="h-4 w-4" />
+                            <ViewIcon className="h-4 w-4" />
                           </button>
                         )}
                         {onReportRow && (
@@ -263,7 +271,7 @@ export function DataTable<T extends Record<string, any>>({
                             className="p-1.5 text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition"
                             title={reportRowTitle}
                           >
-                            <FileSpreadsheet className="h-4 w-4 text-emerald-600" />
+                            <ReportIcon className="h-4 w-4 text-emerald-600" />
                           </button>
                         )}
                         {onPrintRow && (

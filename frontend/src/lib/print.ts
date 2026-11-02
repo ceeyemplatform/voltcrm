@@ -59,3 +59,20 @@ export const usePrintIsolation = (active = true) => {
     return () => document.body.classList.remove('print-doc-open');
   }, [active]);
 };
+
+/** While active, the whole page shows in the light theme; the user's theme comes back afterwards. */
+export const useForceLightTheme = (active = true) => {
+  useEffect(() => {
+    if (!active) return;
+    const root = document.documentElement;
+    const wasDark = root.classList.contains('dark');
+    root.classList.remove('dark');
+    document.body.classList.remove('dark');
+    return () => {
+      if (wasDark) {
+        root.classList.add('dark');
+        document.body.classList.add('dark');
+      }
+    };
+  }, [active]);
+};

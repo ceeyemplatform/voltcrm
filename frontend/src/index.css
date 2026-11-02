@@ -196,6 +196,104 @@ body.dark,
   color: #94a3b8 !important;
 }
 
+
+/* ---------------------------------------------------------------------------
+ * Dark mode for light tints with transparency (bg-emerald-50/60), 100–200 shades,
+ * their hover states and dark tint text: translucent fills and readable text instead
+ * of pale blocks. Generated per colour so new screens are covered too.
+ * ------------------------------------------------------------------------- */
+.dark [class^="bg-blue-50/"], .dark [class*=" bg-blue-50/"] { background-color: rgba(59, 130, 246, 0.1) !important; }
+.dark .bg-blue-100, .dark [class^="bg-blue-100/"], .dark [class*=" bg-blue-100/"] { background-color: rgba(59, 130, 246, 0.18) !important; }
+.dark .bg-blue-200, .dark [class^="bg-blue-200/"], .dark [class*=" bg-blue-200/"] { background-color: rgba(59, 130, 246, 0.24) !important; }
+.dark [class*="hover:bg-blue-50 "]:hover, .dark [class$="hover:bg-blue-50"]:hover, .dark [class*="hover:bg-blue-50/"]:hover, .dark [class*="hover:bg-blue-100 "]:hover, .dark [class$="hover:bg-blue-100"]:hover, .dark [class*="hover:bg-blue-100/"]:hover, .dark [class*="hover:bg-blue-200 "]:hover, .dark [class$="hover:bg-blue-200"]:hover, .dark [class*="hover:bg-blue-200/"]:hover { background-color: rgba(59, 130, 246, 0.2) !important; }
+.dark [class*="border-blue-100"], .dark [class*="border-blue-200"], .dark [class*="border-blue-300"] { border-color: rgba(59, 130, 246, 0.35) !important; }
+.dark .text-blue-800, .dark .text-blue-900, .dark .text-blue-950 { color: #93c5fd !important; }
+.dark [class^="bg-sky-50/"], .dark [class*=" bg-sky-50/"] { background-color: rgba(14, 165, 233, 0.1) !important; }
+.dark .bg-sky-100, .dark [class^="bg-sky-100/"], .dark [class*=" bg-sky-100/"] { background-color: rgba(14, 165, 233, 0.18) !important; }
+.dark .bg-sky-200, .dark [class^="bg-sky-200/"], .dark [class*=" bg-sky-200/"] { background-color: rgba(14, 165, 233, 0.24) !important; }
+.dark [class*="hover:bg-sky-50 "]:hover, .dark [class$="hover:bg-sky-50"]:hover, .dark [class*="hover:bg-sky-50/"]:hover, .dark [class*="hover:bg-sky-100 "]:hover, .dark [class$="hover:bg-sky-100"]:hover, .dark [class*="hover:bg-sky-100/"]:hover, .dark [class*="hover:bg-sky-200 "]:hover, .dark [class$="hover:bg-sky-200"]:hover, .dark [class*="hover:bg-sky-200/"]:hover { background-color: rgba(14, 165, 233, 0.2) !important; }
+.dark [class*="border-sky-100"], .dark [class*="border-sky-200"], .dark [class*="border-sky-300"] { border-color: rgba(14, 165, 233, 0.35) !important; }
+.dark .text-sky-800, .dark .text-sky-900, .dark .text-sky-950 { color: #7dd3fc !important; }
+.dark [class^="bg-indigo-50/"], .dark [class*=" bg-indigo-50/"] { background-color: rgba(99, 102, 241, 0.1) !important; }
+.dark .bg-indigo-100, .dark [class^="bg-indigo-100/"], .dark [class*=" bg-indigo-100/"] { background-color: rgba(99, 102, 241, 0.18) !important; }
+.dark .bg-indigo-200, .dark [class^="bg-indigo-200/"], .dark [class*=" bg-indigo-200/"] { background-color: rgba(99, 102, 241, 0.24) !important; }
+.dark [class*="hover:bg-indigo-50 "]:hover, .dark [class$="hover:bg-indigo-50"]:hover, .dark [class*="hover:bg-indigo-50/"]:hover, .dark [class*="hover:bg-indigo-100 "]:hover, .dark [class$="hover:bg-indigo-100"]:hover, .dark [class*="hover:bg-indigo-100/"]:hover, .dark [class*="hover:bg-indigo-200 "]:hover, .dark [class$="hover:bg-indigo-200"]:hover, .dark [class*="hover:bg-indigo-200/"]:hover { background-color: rgba(99, 102, 241, 0.2) !important; }
+.dark [class*="border-indigo-100"], .dark [class*="border-indigo-200"], .dark [class*="border-indigo-300"] { border-color: rgba(99, 102, 241, 0.35) !important; }
+.dark .text-indigo-800, .dark .text-indigo-900, .dark .text-indigo-950 { color: #c4b5fd !important; }
+.dark [class^="bg-violet-50/"], .dark [class*=" bg-violet-50/"] { background-color: rgba(139, 92, 246, 0.1) !important; }
+.dark .bg-violet-100, .dark [class^="bg-violet-100/"], .dark [class*=" bg-violet-100/"] { background-color: rgba(139, 92, 246, 0.18) !important; }
+.dark .bg-violet-200, .dark [class^="bg-violet-200/"], .dark [class*=" bg-violet-200/"] { background-color: rgba(139, 92, 246, 0.24) !important; }
+.dark [class*="hover:bg-violet-50 "]:hover, .dark [class$="hover:bg-violet-50"]:hover, .dark [class*="hover:bg-violet-50/"]:hover, .dark [class*="hover:bg-violet-100 "]:hover, .dark [class$="hover:bg-violet-100"]:hover, .dark [class*="hover:bg-violet-100/"]:hover, .dark [class*="hover:bg-violet-200 "]:hover, .dark [class$="hover:bg-violet-200"]:hover, .dark [class*="hover:bg-violet-200/"]:hover { background-color: rgba(139, 92, 246, 0.2) !important; }
+.dark [class*="border-violet-100"], .dark [class*="border-violet-200"], .dark [class*="border-violet-300"] { border-color: rgba(139, 92, 246, 0.35) !important; }
+.dark .text-violet-800, .dark .text-violet-900, .dark .text-violet-950 { color: #c4b5fd !important; }
+.dark [class^="bg-purple-50/"], .dark [class*=" bg-purple-50/"] { background-color: rgba(139, 92, 246, 0.1) !important; }
+.dark .bg-purple-100, .dark [class^="bg-purple-100/"], .dark [class*=" bg-purple-100/"] { background-color: rgba(139, 92, 246, 0.18) !important; }
+.dark .bg-purple-200, .dark [class^="bg-purple-200/"], .dark [class*=" bg-purple-200/"] { background-color: rgba(139, 92, 246, 0.24) !important; }
+.dark [class*="hover:bg-purple-50 "]:hover, .dark [class$="hover:bg-purple-50"]:hover, .dark [class*="hover:bg-purple-50/"]:hover, .dark [class*="hover:bg-purple-100 "]:hover, .dark [class$="hover:bg-purple-100"]:hover, .dark [class*="hover:bg-purple-100/"]:hover, .dark [class*="hover:bg-purple-200 "]:hover, .dark [class$="hover:bg-purple-200"]:hover, .dark [class*="hover:bg-purple-200/"]:hover { background-color: rgba(139, 92, 246, 0.2) !important; }
+.dark [class*="border-purple-100"], .dark [class*="border-purple-200"], .dark [class*="border-purple-300"] { border-color: rgba(139, 92, 246, 0.35) !important; }
+.dark .text-purple-800, .dark .text-purple-900, .dark .text-purple-950 { color: #c4b5fd !important; }
+.dark [class^="bg-emerald-50/"], .dark [class*=" bg-emerald-50/"] { background-color: rgba(16, 185, 129, 0.1) !important; }
+.dark .bg-emerald-100, .dark [class^="bg-emerald-100/"], .dark [class*=" bg-emerald-100/"] { background-color: rgba(16, 185, 129, 0.18) !important; }
+.dark .bg-emerald-200, .dark [class^="bg-emerald-200/"], .dark [class*=" bg-emerald-200/"] { background-color: rgba(16, 185, 129, 0.24) !important; }
+.dark [class*="hover:bg-emerald-50 "]:hover, .dark [class$="hover:bg-emerald-50"]:hover, .dark [class*="hover:bg-emerald-50/"]:hover, .dark [class*="hover:bg-emerald-100 "]:hover, .dark [class$="hover:bg-emerald-100"]:hover, .dark [class*="hover:bg-emerald-100/"]:hover, .dark [class*="hover:bg-emerald-200 "]:hover, .dark [class$="hover:bg-emerald-200"]:hover, .dark [class*="hover:bg-emerald-200/"]:hover { background-color: rgba(16, 185, 129, 0.2) !important; }
+.dark [class*="border-emerald-100"], .dark [class*="border-emerald-200"], .dark [class*="border-emerald-300"] { border-color: rgba(16, 185, 129, 0.35) !important; }
+.dark .text-emerald-800, .dark .text-emerald-900, .dark .text-emerald-950 { color: #6ee7b7 !important; }
+.dark [class^="bg-green-50/"], .dark [class*=" bg-green-50/"] { background-color: rgba(34, 197, 94, 0.1) !important; }
+.dark .bg-green-100, .dark [class^="bg-green-100/"], .dark [class*=" bg-green-100/"] { background-color: rgba(34, 197, 94, 0.18) !important; }
+.dark .bg-green-200, .dark [class^="bg-green-200/"], .dark [class*=" bg-green-200/"] { background-color: rgba(34, 197, 94, 0.24) !important; }
+.dark [class*="hover:bg-green-50 "]:hover, .dark [class$="hover:bg-green-50"]:hover, .dark [class*="hover:bg-green-50/"]:hover, .dark [class*="hover:bg-green-100 "]:hover, .dark [class$="hover:bg-green-100"]:hover, .dark [class*="hover:bg-green-100/"]:hover, .dark [class*="hover:bg-green-200 "]:hover, .dark [class$="hover:bg-green-200"]:hover, .dark [class*="hover:bg-green-200/"]:hover { background-color: rgba(34, 197, 94, 0.2) !important; }
+.dark [class*="border-green-100"], .dark [class*="border-green-200"], .dark [class*="border-green-300"] { border-color: rgba(34, 197, 94, 0.35) !important; }
+.dark .text-green-800, .dark .text-green-900, .dark .text-green-950 { color: #86efac !important; }
+.dark [class^="bg-teal-50/"], .dark [class*=" bg-teal-50/"] { background-color: rgba(20, 184, 166, 0.1) !important; }
+.dark .bg-teal-100, .dark [class^="bg-teal-100/"], .dark [class*=" bg-teal-100/"] { background-color: rgba(20, 184, 166, 0.18) !important; }
+.dark .bg-teal-200, .dark [class^="bg-teal-200/"], .dark [class*=" bg-teal-200/"] { background-color: rgba(20, 184, 166, 0.24) !important; }
+.dark [class*="hover:bg-teal-50 "]:hover, .dark [class$="hover:bg-teal-50"]:hover, .dark [class*="hover:bg-teal-50/"]:hover, .dark [class*="hover:bg-teal-100 "]:hover, .dark [class$="hover:bg-teal-100"]:hover, .dark [class*="hover:bg-teal-100/"]:hover, .dark [class*="hover:bg-teal-200 "]:hover, .dark [class$="hover:bg-teal-200"]:hover, .dark [class*="hover:bg-teal-200/"]:hover { background-color: rgba(20, 184, 166, 0.2) !important; }
+.dark [class*="border-teal-100"], .dark [class*="border-teal-200"], .dark [class*="border-teal-300"] { border-color: rgba(20, 184, 166, 0.35) !important; }
+.dark .text-teal-800, .dark .text-teal-900, .dark .text-teal-950 { color: #5eead4 !important; }
+.dark [class^="bg-cyan-50/"], .dark [class*=" bg-cyan-50/"] { background-color: rgba(6, 182, 212, 0.1) !important; }
+.dark .bg-cyan-100, .dark [class^="bg-cyan-100/"], .dark [class*=" bg-cyan-100/"] { background-color: rgba(6, 182, 212, 0.18) !important; }
+.dark .bg-cyan-200, .dark [class^="bg-cyan-200/"], .dark [class*=" bg-cyan-200/"] { background-color: rgba(6, 182, 212, 0.24) !important; }
+.dark [class*="hover:bg-cyan-50 "]:hover, .dark [class$="hover:bg-cyan-50"]:hover, .dark [class*="hover:bg-cyan-50/"]:hover, .dark [class*="hover:bg-cyan-100 "]:hover, .dark [class$="hover:bg-cyan-100"]:hover, .dark [class*="hover:bg-cyan-100/"]:hover, .dark [class*="hover:bg-cyan-200 "]:hover, .dark [class$="hover:bg-cyan-200"]:hover, .dark [class*="hover:bg-cyan-200/"]:hover { background-color: rgba(6, 182, 212, 0.2) !important; }
+.dark [class*="border-cyan-100"], .dark [class*="border-cyan-200"], .dark [class*="border-cyan-300"] { border-color: rgba(6, 182, 212, 0.35) !important; }
+.dark .text-cyan-800, .dark .text-cyan-900, .dark .text-cyan-950 { color: #67e8f9 !important; }
+.dark [class^="bg-amber-50/"], .dark [class*=" bg-amber-50/"] { background-color: rgba(245, 158, 11, 0.1) !important; }
+.dark .bg-amber-100, .dark [class^="bg-amber-100/"], .dark [class*=" bg-amber-100/"] { background-color: rgba(245, 158, 11, 0.18) !important; }
+.dark .bg-amber-200, .dark [class^="bg-amber-200/"], .dark [class*=" bg-amber-200/"] { background-color: rgba(245, 158, 11, 0.24) !important; }
+.dark [class*="hover:bg-amber-50 "]:hover, .dark [class$="hover:bg-amber-50"]:hover, .dark [class*="hover:bg-amber-50/"]:hover, .dark [class*="hover:bg-amber-100 "]:hover, .dark [class$="hover:bg-amber-100"]:hover, .dark [class*="hover:bg-amber-100/"]:hover, .dark [class*="hover:bg-amber-200 "]:hover, .dark [class$="hover:bg-amber-200"]:hover, .dark [class*="hover:bg-amber-200/"]:hover { background-color: rgba(245, 158, 11, 0.2) !important; }
+.dark [class*="border-amber-100"], .dark [class*="border-amber-200"], .dark [class*="border-amber-300"] { border-color: rgba(245, 158, 11, 0.35) !important; }
+.dark .text-amber-800, .dark .text-amber-900, .dark .text-amber-950 { color: #fcd34d !important; }
+.dark [class^="bg-orange-50/"], .dark [class*=" bg-orange-50/"] { background-color: rgba(249, 115, 22, 0.1) !important; }
+.dark .bg-orange-100, .dark [class^="bg-orange-100/"], .dark [class*=" bg-orange-100/"] { background-color: rgba(249, 115, 22, 0.18) !important; }
+.dark .bg-orange-200, .dark [class^="bg-orange-200/"], .dark [class*=" bg-orange-200/"] { background-color: rgba(249, 115, 22, 0.24) !important; }
+.dark [class*="hover:bg-orange-50 "]:hover, .dark [class$="hover:bg-orange-50"]:hover, .dark [class*="hover:bg-orange-50/"]:hover, .dark [class*="hover:bg-orange-100 "]:hover, .dark [class$="hover:bg-orange-100"]:hover, .dark [class*="hover:bg-orange-100/"]:hover, .dark [class*="hover:bg-orange-200 "]:hover, .dark [class$="hover:bg-orange-200"]:hover, .dark [class*="hover:bg-orange-200/"]:hover { background-color: rgba(249, 115, 22, 0.2) !important; }
+.dark [class*="border-orange-100"], .dark [class*="border-orange-200"], .dark [class*="border-orange-300"] { border-color: rgba(249, 115, 22, 0.35) !important; }
+.dark .text-orange-800, .dark .text-orange-900, .dark .text-orange-950 { color: #fdba74 !important; }
+.dark [class^="bg-yellow-50/"], .dark [class*=" bg-yellow-50/"] { background-color: rgba(234, 179, 8, 0.1) !important; }
+.dark .bg-yellow-100, .dark [class^="bg-yellow-100/"], .dark [class*=" bg-yellow-100/"] { background-color: rgba(234, 179, 8, 0.18) !important; }
+.dark .bg-yellow-200, .dark [class^="bg-yellow-200/"], .dark [class*=" bg-yellow-200/"] { background-color: rgba(234, 179, 8, 0.24) !important; }
+.dark [class*="hover:bg-yellow-50 "]:hover, .dark [class$="hover:bg-yellow-50"]:hover, .dark [class*="hover:bg-yellow-50/"]:hover, .dark [class*="hover:bg-yellow-100 "]:hover, .dark [class$="hover:bg-yellow-100"]:hover, .dark [class*="hover:bg-yellow-100/"]:hover, .dark [class*="hover:bg-yellow-200 "]:hover, .dark [class$="hover:bg-yellow-200"]:hover, .dark [class*="hover:bg-yellow-200/"]:hover { background-color: rgba(234, 179, 8, 0.2) !important; }
+.dark [class*="border-yellow-100"], .dark [class*="border-yellow-200"], .dark [class*="border-yellow-300"] { border-color: rgba(234, 179, 8, 0.35) !important; }
+.dark .text-yellow-800, .dark .text-yellow-900, .dark .text-yellow-950 { color: #fde047 !important; }
+.dark [class^="bg-rose-50/"], .dark [class*=" bg-rose-50/"] { background-color: rgba(244, 63, 94, 0.1) !important; }
+.dark .bg-rose-100, .dark [class^="bg-rose-100/"], .dark [class*=" bg-rose-100/"] { background-color: rgba(244, 63, 94, 0.18) !important; }
+.dark .bg-rose-200, .dark [class^="bg-rose-200/"], .dark [class*=" bg-rose-200/"] { background-color: rgba(244, 63, 94, 0.24) !important; }
+.dark [class*="hover:bg-rose-50 "]:hover, .dark [class$="hover:bg-rose-50"]:hover, .dark [class*="hover:bg-rose-50/"]:hover, .dark [class*="hover:bg-rose-100 "]:hover, .dark [class$="hover:bg-rose-100"]:hover, .dark [class*="hover:bg-rose-100/"]:hover, .dark [class*="hover:bg-rose-200 "]:hover, .dark [class$="hover:bg-rose-200"]:hover, .dark [class*="hover:bg-rose-200/"]:hover { background-color: rgba(244, 63, 94, 0.2) !important; }
+.dark [class*="border-rose-100"], .dark [class*="border-rose-200"], .dark [class*="border-rose-300"] { border-color: rgba(244, 63, 94, 0.35) !important; }
+.dark .text-rose-800, .dark .text-rose-900, .dark .text-rose-950 { color: #fda4af !important; }
+.dark [class^="bg-red-50/"], .dark [class*=" bg-red-50/"] { background-color: rgba(239, 68, 68, 0.1) !important; }
+.dark .bg-red-100, .dark [class^="bg-red-100/"], .dark [class*=" bg-red-100/"] { background-color: rgba(239, 68, 68, 0.18) !important; }
+.dark .bg-red-200, .dark [class^="bg-red-200/"], .dark [class*=" bg-red-200/"] { background-color: rgba(239, 68, 68, 0.24) !important; }
+.dark [class*="hover:bg-red-50 "]:hover, .dark [class$="hover:bg-red-50"]:hover, .dark [class*="hover:bg-red-50/"]:hover, .dark [class*="hover:bg-red-100 "]:hover, .dark [class$="hover:bg-red-100"]:hover, .dark [class*="hover:bg-red-100/"]:hover, .dark [class*="hover:bg-red-200 "]:hover, .dark [class$="hover:bg-red-200"]:hover, .dark [class*="hover:bg-red-200/"]:hover { background-color: rgba(239, 68, 68, 0.2) !important; }
+.dark [class*="border-red-100"], .dark [class*="border-red-200"], .dark [class*="border-red-300"] { border-color: rgba(239, 68, 68, 0.35) !important; }
+.dark .text-red-800, .dark .text-red-900, .dark .text-red-950 { color: #fca5a5 !important; }
+.dark [class^="bg-slate-100/"], .dark [class*=" bg-slate-100/"] { background-color: rgba(30, 41, 59, 0.7) !important; }
+.dark .bg-slate-200, .dark [class^="bg-slate-200/"], .dark [class*=" bg-slate-200/"] { background-color: #1e293b !important; }
+.dark .bg-slate-300 { background-color: #334155 !important; }
+.dark .bg-slate-50\/90 { background-color: #0f172a !important; }
+.dark .hover\:bg-slate-200:hover, .dark [class*="hover:bg-white/"]:hover { background-color: #1e293b !important; }
+.dark .text-slate-950 { color: #f8fafc !important; }
+.dark .border-slate-400 { border-color: #334155 !important; }
+
 /* Inputs, selects, and textareas */
 .dark input:not([type="checkbox"]):not([type="radio"]),
 .dark select,
