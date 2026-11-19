@@ -20,7 +20,7 @@ import {
 import { Work, WorkPolevarData, PolevarColumn, PolevarLocationRow } from '../../types';
 import { api } from '../../lib/api';
 import { downloadPolevarXlsx } from '../../lib/polevarExcel';
-import { confirmDelete } from '../common/ConfirmHost';
+import { askSaveChanges, confirmDelete } from '../common/ConfirmHost';
 
 interface WorkPolevarModalProps {
   isOpen: boolean;
@@ -82,12 +82,28 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
     }
   }, [isOpen, work.id]);
 
+  // What the server has, to tell whether the sheet changed since it was loaded or saved
+  const savedSnapshot = useRef('');
+  const isDirty = Boolean(data) && JSON.stringify(data) !== savedSnapshot.current;
+
+  // Leaving or reloading the browser tab with unsaved changes asks first too
+  useEffect(() => {
+    if (!isOpen || !isDirty) return;
+    const warn = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [isOpen, isDirty]);
+
   const loadPolevar = async () => {
     setLoading(true);
     setError(null);
     setSaveSuccess(false);
     try {
       const res = await api.works.getPolevar(work.id);
+      savedSnapshot.current = JSON.stringify(res);
       setData(res);
     } catch (err: any) {
       setError(err?.message || 'Failed to load Polevar report');
@@ -97,6 +113,16 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
   };
 
   if (!isOpen) return null;
+
+  /** Closes the sheet, first asking to save when something changed since the last save */
+  const handleClose = async () => {
+    if (isDirty) {
+      const choice = await askSaveChanges('This Polevar sheet has changes that are not saved yet.');
+      if (choice === 'cancel') return;
+      if (choice === 'save' && !(await handleSave())) return;
+    }
+    onClose();
+  };
 
   const materialsCols = data?.columns.filter((c) => c.category === 'materials') || [];
   const labourCols = data?.columns.filter((c) => c.category === 'labour') || [];
@@ -194,17 +220,21 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
     }, 0);
   };
 
-  const handleSave = async () => {
-    if (!data) return;
+  /** Saves the sheet; true when it worked */
+  const handleSave = async (): Promise<boolean> => {
+    if (!data) return false;
     setSaving(true);
     setError(null);
     try {
       await api.works.updatePolevar(work.id, data);
+      savedSnapshot.current = JSON.stringify(data);
       setSaveSuccess(true);
       if (onUpdated) onUpdated();
       setTimeout(() => setSaveSuccess(false), 3000);
+      return true;
     } catch (err: any) {
       setError(err?.message || 'Failed to save Polevar report');
+      return false;
     } finally {
       setSaving(false);
     }
@@ -327,7 +357,8 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
             </button>
 
             <button
-              onClick={onClose}
+              onClick={handleClose}
+              title={isDirty ? 'Close (you have unsaved changes)' : 'Close'}
               className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-700 transition ml-2"
             >
               <X className="h-5 w-5" />
