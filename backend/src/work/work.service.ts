@@ -94,6 +94,7 @@ export class WorkService {
         workSite: {
           select: {
             id: true,
+            siteCode: true,
             name: true,
             section: true,
           },

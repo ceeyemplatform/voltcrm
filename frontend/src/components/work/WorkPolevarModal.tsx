@@ -101,6 +101,8 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
   const materialsCols = data?.columns.filter((c) => c.category === 'materials') || [];
   const labourCols = data?.columns.filter((c) => c.category === 'labour') || [];
   const takenBackCols = data?.columns.filter((c) => c.category === 'takenBack') || [];
+  // Cells and totals follow the same grouped order as the headings, whatever order columns were added in
+  const orderedCols = [...materialsCols, ...labourCols, ...takenBackCols];
 
   const handleCellChange = (rowId: string, colId: string, value: string) => {
     if (!data) return;
@@ -616,7 +618,7 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
                         </td>
 
                         {/* Column Cells */}
-                        {data.columns.map((col) => {
+                        {orderedCols.map((col) => {
                           const val = row.values[col.id];
                           return (
                             <td
@@ -648,7 +650,7 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
                         Total
                       </td>
 
-                      {data.columns.map((col) => {
+                      {orderedCols.map((col) => {
                         const total = getColumnTotal(col.id);
                         return (
                           <td

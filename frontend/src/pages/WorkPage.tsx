@@ -30,7 +30,8 @@ import { PageHeader } from '../components/common/PageHeader';
 import { StatCard } from '../components/common/StatCard';
 import { StatusBadge, MultiLineCell } from '../components/common/Badges';
 import { StatusChangeModal } from '../components/work/StatusChangeModal';
-import { getAllWorkStatuses } from '../lib/statusConfig';
+import { WorkListPrint } from '../components/work/WorkListPrint';
+import { formatStatusLabel, getAllWorkStatuses } from '../lib/statusConfig';
 
 interface WorkPageProps {
   /** Work shown in the detail view; driven by the #/work?workId= URL */
@@ -68,6 +69,7 @@ export const WorkPage: React.FC<WorkPageProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingWork, setEditingWork] = useState<Work | null>(null);
   const [printingWork, setPrintingWork] = useState<Work | null>(null);
+  const [isListPrintOpen, setIsListPrintOpen] = useState(false);
   const [polevarWork, setPolevarWork] = useState<Work | null>(null);
   const [selectedWorkForDailyModal, setSelectedWorkForDailyModal] = useState<Work | null>(null);
   const [isDailyModalOpen, setIsDailyModalOpen] = useState(false);
@@ -254,8 +256,21 @@ export const WorkPage: React.FC<WorkPageProps> = ({
       ),
     },
     {
+      key: 'contractorAmount',
+      header: 'CONTRACT (₹)',
+      sortable: true,
+      render: (row) =>
+        Number(row.contractorAmount) > 0 ? (
+          <span className="whitespace-nowrap font-mono text-xs font-bold text-slate-900">
+            ₹{Number(row.contractorAmount).toLocaleString('en-IN')}
+          </span>
+        ) : (
+          <span className="text-xs text-slate-400">—</span>
+        ),
+    },
+    {
       key: 'amounts',
-      header: 'AMOUNT (₹)',
+      header: 'DAILY COST (₹)',
       sortable: true,
       render: (row) => {
         const logged = (row.dailyDetails || []).reduce(
@@ -366,6 +381,17 @@ export const WorkPage: React.FC<WorkPageProps> = ({
             >
               <Cloud className="h-3.5 w-3.5 text-emerald-600" />
               <span className="hidden sm:inline">Sync Cloud</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsListPrintOpen(true)}
+              disabled={loading}
+              className="btn-secondary"
+              title="Print the work list (filtered, or the latest ones)"
+            >
+              <Printer className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Print List</span>
             </button>
 
             <button
@@ -669,6 +695,21 @@ export const WorkPage: React.FC<WorkPageProps> = ({
           isOpen={isCloudSyncOpen}
           onClose={() => setIsCloudSyncOpen(false)}
           onSyncCompleted={loadWorks}
+        />
+      )}
+      {isListPrintOpen && (
+        <WorkListPrint
+          works={sortedWorks}
+          filterSummary={[
+            searchTerm && `Search: "${searchTerm}"`,
+            statusFilter && `Status: ${formatStatusLabel(statusFilter)}`,
+            siteFilter && `Site: ${workSites.find((s) => s.id === siteFilter)?.name || ''}`,
+            (startDateFilter || endDateFilter) &&
+              `Dates: ${startDateFilter ? formatDate(startDateFilter) : '…'} – ${endDateFilter ? formatDate(endDateFilter) : '…'}`,
+          ]
+            .filter(Boolean)
+            .join(' · ')}
+          onClose={() => setIsListPrintOpen(false)}
         />
       )}
     </div>
