@@ -441,20 +441,22 @@ export const WorkPolevarModal: React.FC<WorkPolevarModalProps> = ({
                 </div>
               </div>
 
-              <div className="overflow-x-auto">
+              {/* One scroll area for both directions, so the heading rows stay on top and
+                  S.No / Location stay on the left while scrolling */}
+              <div className="max-h-[calc(96vh-230px)] overflow-auto">
                 <table className="w-full border-collapse text-xs text-slate-800 border-slate-400">
-                  <thead>
+                  <thead className="sticky top-0 z-30 bg-white shadow-[0_1px_0_#94a3b8]">
                     {/* Header Level 1: Category Groups */}
                     <tr className="border-b border-slate-400 text-center font-bold">
                       <th
                         rowSpan={2}
-                        className="border-r border-b border-slate-400 bg-slate-100 p-2 text-center w-12 sticky left-0 z-20 font-bold"
+                        className="border-r border-b border-slate-400 bg-slate-100 p-2 text-center w-12 sticky left-0 z-40 font-bold"
                       >
                         SL No:
                       </th>
                       <th
                         rowSpan={2}
-                        className="border-r border-b border-slate-400 bg-slate-100 p-2 text-center min-w-[110px] sticky left-12 z-20 font-bold"
+                        className="border-r border-b border-slate-400 bg-slate-100 p-2 text-center min-w-[110px] sticky left-12 z-40 font-bold"
                       >
                         Location
                       </th>
